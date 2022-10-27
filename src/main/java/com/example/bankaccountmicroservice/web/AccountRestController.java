@@ -28,7 +28,7 @@ public class AccountRestController {
 
     @PostMapping("/bankAccounts")
     public BankAccount save(@RequestBody BankAccount bankAccount) {
-        if(bankAccount.getId()!= null) bankAccount.setId(UUID.randomUUID().toString());
+        if (bankAccount.getId() == null) bankAccount.setId(UUID.randomUUID().toString());
         return bankAccountRepository.save(bankAccount);
     }
 
