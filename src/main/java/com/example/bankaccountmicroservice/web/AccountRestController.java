@@ -37,8 +37,8 @@ public class AccountRestController {
         BankAccount account = bankAccountRepository.findById(id).orElseThrow();
         if (bankAccount.getBalance() != null) account.setBalance(bankAccount.getBalance());
         if (bankAccount.getCreatedAt() != null) account.setCreatedAt(new Date());
-        if (bankAccount.getType() != null) account.setType(account.getType());
-        if (bankAccount.getCurrency() != null) account.setCurrency(account.getCurrency());
+        if (bankAccount.getType() != null) account.setType(bankAccount.getType());
+        if (bankAccount.getCurrency() != null) account.setCurrency(bankAccount.getCurrency());
         return bankAccountRepository.save(account);
     }
 
