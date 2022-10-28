@@ -1,20 +1,27 @@
 package com.example.bankaccountmicroservice.web;
 
+import com.example.bankaccountmicroservice.dto.BankAccountRequestDTO;
+import com.example.bankaccountmicroservice.dto.BankAccountResponseDTO;
 import com.example.bankaccountmicroservice.entities.BankAccount;
+import com.example.bankaccountmicroservice.mappers.AccountMapper;
 import com.example.bankaccountmicroservice.repositories.BankAccountRepository;
+import com.example.bankaccountmicroservice.service.BankAccountServiceImpl;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Date;
 import java.util.List;
-import java.util.UUID;
 
 @RestController
 @RequestMapping("/api")
 public class AccountRestController {
     private BankAccountRepository bankAccountRepository;
+    private BankAccountServiceImpl bankAccountService;
+    private AccountMapper accountMapper;
 
-    public AccountRestController(BankAccountRepository bankAccountRepository) {
+    public AccountRestController(BankAccountRepository bankAccountRepository, BankAccountServiceImpl bankAccountService, AccountMapper accountMapper) {
         this.bankAccountRepository = bankAccountRepository;
+        this.bankAccountService = bankAccountService;
+        this.accountMapper = accountMapper;
     }
 
     @GetMapping("/bankAccounts")
@@ -28,9 +35,8 @@ public class AccountRestController {
     }
 
     @PostMapping("/bankAccounts")
-    public BankAccount save(@RequestBody BankAccount bankAccount) {
-        if (bankAccount.getId() == null) bankAccount.setId(UUID.randomUUID().toString());
-        return bankAccountRepository.save(bankAccount);
+    public BankAccountResponseDTO save(@RequestBody BankAccountRequestDTO requestDTO) {
+        return bankAccountService.addAccount(requestDTO);
     }
 
     @PutMapping("/bankAccounts/{id}")
