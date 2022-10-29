@@ -6,4 +6,6 @@ import com.example.bankaccountmicroservice.entities.BankAccount;
 
 public interface BankAccountService {
     BankAccountResponseDTO addAccount(BankAccountRequestDTO bankAccountDTO);
+
+    BankAccountResponseDTO updateAccount(String id, BankAccountRequestDTO bankAccountDTO);
 }
