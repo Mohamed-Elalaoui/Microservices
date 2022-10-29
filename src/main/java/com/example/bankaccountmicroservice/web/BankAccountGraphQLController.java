@@ -3,7 +3,9 @@ package com.example.bankaccountmicroservice.web;
 import com.example.bankaccountmicroservice.dto.BankAccountRequestDTO;
 import com.example.bankaccountmicroservice.dto.BankAccountResponseDTO;
 import com.example.bankaccountmicroservice.entities.BankAccount;
+import com.example.bankaccountmicroservice.entities.Customer;
 import com.example.bankaccountmicroservice.repositories.BankAccountRepository;
+import com.example.bankaccountmicroservice.repositories.CustomerRepository;
 import com.example.bankaccountmicroservice.service.BankAccountService;
 import com.example.bankaccountmicroservice.service.BankAccountServiceImpl;
 import org.springframework.graphql.data.method.annotation.Argument;
@@ -17,10 +19,12 @@ import java.util.List;
 public class BankAccountGraphQLController {
     private BankAccountRepository bankAccountRepository;
     private BankAccountService bankAccountService;
+    private CustomerRepository customerRepository;
 
-    public BankAccountGraphQLController(BankAccountRepository bankAccountRepository, BankAccountServiceImpl bankAccountService) {
+    public BankAccountGraphQLController(BankAccountRepository bankAccountRepository, BankAccountServiceImpl bankAccountService, CustomerRepository customerRepository) {
         this.bankAccountRepository = bankAccountRepository;
         this.bankAccountService = bankAccountService;
+        this.customerRepository = customerRepository;
     }
 
     @QueryMapping
@@ -48,6 +52,11 @@ public class BankAccountGraphQLController {
     public Boolean deleteAccount(@Argument String id) {
         bankAccountRepository.deleteById(id);
         return true;
+    }
+
+    @QueryMapping
+    public List<Customer> customers() {
+        return customerRepository.findAll();
     }
 }
 
